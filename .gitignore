@@ -1,0 +1,86 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Diretórios de ambiente virtual
+.env/
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Arquivos de configuração de pacotes
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+
+# Arquivos temporários / logs
+*.log
+*.out
+*.tmp
+*.swp
+*.bak
+
+# Cache do pip
+pip-wheel-metadata/
+*.whl
+.cache/
+.python-version
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Arquivos gerados por ferramentas científicas
+*.h5
+*.hdf5
+*.csv
+*.parquet
+*.feather
+*.xls
+*.xlsx
+
+# VSCode
+.vscode/
+
+# PyCharm
+.idea/
+
+# Arquivos de testes
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+pytest_cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# DVC
+*.dvc
+.dvc/
+.dvcignore
+
+# Arquivos específicos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Armazenamento em nuvem
+# (descomente se usar Google Drive, etc.)
+# drive/

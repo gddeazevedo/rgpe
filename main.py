@@ -1,26 +1,39 @@
+import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, r2_score
-
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import r2_score, mean_squared_error
 from qiskit.circuit.library import ZZFeatureMap
 from qiskit_machine_learning.kernels import FidelityQuantumKernel
 from qiskit_machine_learning.algorithms import QSVR
+from qiskit_algorithms.state_fidelities import ComputeUncompute
+from qiskit_aer import AerSimulator
+from qiskit.primitives import BackendSamplerV2 as BackendSampler
 
-np.random.seed(42)
+df = pd.read_csv("dataset/gram_distance.csv")
 
-def generate_data(n_samples=100):
-    X = np.random.uniform(-1, 1, size=(n_samples, 2))
-    y = np.sin(np.pi * X[:, 0]) + np.cos(np.pi * X[:, 1])
-    return X, y
+X = df[["gram_point"]].values
+y = df["distance_to_zero"].values
 
-X, y = generate_data(100)
+X = X[:50]
+y = y[:50]
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
 
-feature_map = ZZFeatureMap(feature_dimension=2, reps=2)
-quantum_kernel = FidelityQuantumKernel(feature_map=feature_map)
+X_train, X_test, y_train, y_test = train_test_split(
+    X_scaled, y, test_size=0.2, random_state=42
+)
+
+sampler  = BackendSampler(backend=AerSimulator())
+fidelity = ComputeUncompute(sampler=sampler)
+
+feature_map    = ZZFeatureMap(feature_dimension=2, reps=2)
+quantum_kernel = FidelityQuantumKernel(feature_map=feature_map, fidelity=fidelity)
 
 qsvr = QSVR(quantum_kernel=quantum_kernel)
+
+print("Training QSVR model...")
 qsvr.fit(X_train, y_train)
 
 y_pred = qsvr.predict(X_test)

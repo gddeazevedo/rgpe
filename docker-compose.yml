@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  rgpe:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rgpe
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/app
+    command: >
+      jupyter notebook
+      --ip=0.0.0.0
+      --port=8888
+      --no-browser
+      --allow-root
+      --NotebookApp.token=''
+      --NotebookApp.disable_check_xsrf=True

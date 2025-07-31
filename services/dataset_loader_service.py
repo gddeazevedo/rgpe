@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from numpy.typing import NDArray
 
+
 def load_gram_distance_dataset() -> tuple[NDArray, NDArray]:
     """
     Load the Gram distance dataset from a CSV file.

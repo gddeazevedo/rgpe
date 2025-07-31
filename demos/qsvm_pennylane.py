@@ -42,3 +42,5 @@ def kernel(x1, x2):
     qml.adjoint(AngleEmbedding)(x2, wires=wires)
     return qml.expval(qml.Hermetian(projector, wires=wires))                   
 
+
+

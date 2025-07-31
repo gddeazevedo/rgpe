@@ -9,6 +9,9 @@ from services.dataset_loader_service import load_gram_distance_dataset
 
 X, y = load_gram_distance_dataset()
 
+X = X[:100]
+y = y[:100]
+
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X, y)
 

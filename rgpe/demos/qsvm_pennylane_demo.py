@@ -59,7 +59,7 @@ class QSVMPennylaneDemo(BaseDemo):
     ) -> NDArray[np.float64]:
         return np.array([[kernel_fn(a, b) for b in B] for a in A])
 
-    def exec(self) -> None:
+    def run(self) -> None:
         np.random.seed(42)
 
         X_train, X_test, y_train, y_test = self._load_data()

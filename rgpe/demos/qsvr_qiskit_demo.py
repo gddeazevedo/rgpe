@@ -4,23 +4,12 @@ from sklearn.preprocessing import StandardScaler
 from qiskit.circuit.library import ZZFeatureMap
 from qiskit_machine_learning.kernels import FidelityQuantumKernel
 from qiskit_machine_learning.algorithms import QSVR
-from services.dataset_loader_service import load_gram_distance_dataset
-
-
-from . import BaseDemo
-from numpy.typing import NDArray
-import numpy as np
-import pandas as pd
+from ..services.dataset_loader_service import load_gram_distance_dataset
+from .base_demo import BaseDemo
 
 
 class QSVRQiskitDemo(BaseDemo):
-    def __init__(self) -> None:
-        super().__init__()
-        self.n_qubits: int | None = None
-        self.dev_kernel: qml.Device | None = None
-        self.projector: NDArray[np.float64] | None = None
-
-    def exec(self):
+    def run(self):
         X, y = load_gram_distance_dataset()
 
         X = X[:100]

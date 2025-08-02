@@ -1,7 +1,7 @@
 import requests
 import numpy as np
 import pandas as pd
-from lib.gram_points.GramPoints import write_gram_points
+from ..lib.gram_points.GramPoints import write_gram_points
 
 
 def generate_gram_points_dataset() -> None:

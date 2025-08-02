@@ -1,7 +1,7 @@
 import requests
 import numpy as np
 import pandas as pd
-from lib.gram_points.GramPoints import write_gram_points
+from ..lib.gram_points.GramPoints import write_gram_points
 
 
 def generate_gram_points_dataset() -> None:
@@ -21,6 +21,9 @@ def download_zeta_zeros() -> None:
 
 
 def write_gram_distance_dataset() -> None:
+    """
+    Gera o dataset de distâncias entre os pontos gramaticais e os zeros da função zeta.
+    """
     zeros   = np.load("./dataset/zeta_zeros.npy")
     df_gram = pd.read_csv("./dataset/gram_points.csv")
     gram_points = df_gram["n-th gram point"].values

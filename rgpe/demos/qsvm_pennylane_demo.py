@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.typing import NDArray
 
-from base_demo import BaseDemo
+from .base_demo import BaseDemo
 
 from sklearn.svm import SVC
 from sklearn.datasets import load_iris
@@ -78,8 +78,3 @@ class QSVMPennylaneDemo(BaseDemo):
                 y_pred = svm.predict(K_test)
                 accuracy = accuracy_score(y_test, y_pred)
                 print(f"Accuracy: {accuracy:.4f}")
-
-
-if __name__ == "__main__":
-    demo = QSVMPennylaneDemo()
-    demo.exec()

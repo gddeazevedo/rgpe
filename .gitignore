@@ -1,4 +1,4 @@
-dataset/*.csv
+dataset/
 
 # Python bytecode
 __pycache__/

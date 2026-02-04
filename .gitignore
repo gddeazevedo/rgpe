@@ -1,4 +1,5 @@
-dataset/
+dataset/*.csv
+dataset/*.txt
 
 # Python bytecode
 __pycache__/

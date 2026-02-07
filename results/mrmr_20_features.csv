@@ -1,5 +1,4 @@
 feature
-gram
 z_gram
 z_cogram
 z_term_9
@@ -13,6 +12,7 @@ d_lag_19
 d_lag_20
 d_lag_21
 d_lag_23
+cogram_lag_1
 z_cogram_lag_1
 z_cogram_lag_2
 z_cogram_lag_3

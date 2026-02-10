@@ -24,3 +24,6 @@
 - [Genetic Algorithm: Complete Guide With Python Implementation](https://www.datacamp.com/tutorial/genetic-algorithm-python)
 - [Time Series](https://www.alura.com.br/artigos/series-temporais)
 - [Time Series - Sazonalidade](https://www.alura.com.br/artigos/series-temporais-tipos-de-sazonalidade)
+- [Use RandomForest to Select Features Predictors in Regression](https://www.youtube.com/watch?v=b_hiG255f0o)
+- [Feature Selection Using Random Forest](https://www.geeksforgeeks.org/machine-learning/feature-selection-using-random-forest/)
+- [Using Random Forest For Feature Importance And Feature Selection](https://medium.com/@prasannarghattikar/using-random-forest-for-feature-importance-118462c40189)

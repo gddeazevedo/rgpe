@@ -69,7 +69,7 @@ def _write_distances_dataset(limit: int = 100_000) -> None:
     y = np.zeros((limit,), dtype=np.float64)
 
     for i in range(limit):
-        y[i] = zeros[i] - gram_points[i + 1]
+        y[i] = zeros[i] - gram_points[i]
 
     df = pd.DataFrame({"n": np.arange(1, limit + 1), "distance": y})
     df.to_csv("./dataset/distances.csv", index=False)

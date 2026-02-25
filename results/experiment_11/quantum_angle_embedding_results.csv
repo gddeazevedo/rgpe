@@ -1,0 +1,7 @@
+Group,RMSE,R2,qubits
+Quantum Kernel SVR - Random Forest Features,0.23410254037140618,0.3798151500861986,10
+Quantum Kernel SVR - Correlation Features,0.2913220839127008,0.03959211754170011,10
+Quantum Kernel SVR - Gevrey Method Features,0.3273550236233421,-0.2126819684944976,10
+Quantum Kernel SVR - MRMR (10 features) Features,0.1571105904003699,0.7206685593400309,10
+Quantum Kernel SVR - Mutual Information Features,0.1382223424337094,0.7837951673220241,10
+Quantum Kernel SVR - My Selection Features,0.12033948106902939,0.8361202967993089,10

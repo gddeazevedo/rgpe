@@ -15,6 +15,7 @@
 - [Quantum Kernel Training for Machine Learning Applications (QSVM QISKIT)](https://qiskit-community.github.io/qiskit-machine-learning/tutorials/08_quantum_kernel_trainer.html)
 - [Creating Custom Feature Maps for Quantum Support Vector Machines (Pauli Feature Map)](https://github.com/qiskit-community/qiskit-community-tutorials/blob/master/machine_learning/custom_feature_map.ipynb)
 - [Pauli Feature Map docs](https://quantum.cloud.ibm.com/docs/en/api/qiskit/qiskit.circuit.library.pauli_feature_map)
+- [BasicEntanglerLayers](https://docs.pennylane.ai/en/stable/code/api/pennylane.BasicEntanglerLayers.html)
 
 ## Etc
 
@@ -27,3 +28,4 @@
 - [Use RandomForest to Select Features Predictors in Regression](https://www.youtube.com/watch?v=b_hiG255f0o)
 - [Feature Selection Using Random Forest](https://www.geeksforgeeks.org/machine-learning/feature-selection-using-random-forest/)
 - [Using Random Forest For Feature Importance And Feature Selection](https://medium.com/@prasannarghattikar/using-random-forest-for-feature-importance-118462c40189)
+- [Feature selection reference](https://link.springer.com/chapter/10.1007/978-3-540-87481-2_21)

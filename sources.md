@@ -29,3 +29,6 @@
 - [Feature Selection Using Random Forest](https://www.geeksforgeeks.org/machine-learning/feature-selection-using-random-forest/)
 - [Using Random Forest For Feature Importance And Feature Selection](https://medium.com/@prasannarghattikar/using-random-forest-for-feature-importance-118462c40189)
 - [Feature selection reference](https://link.springer.com/chapter/10.1007/978-3-540-87481-2_21)
+- [Recursive Feature Elimination](https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFE.html)
+- [Mutual Info Regression](https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.mutual_info_regression.html)
+- [Permutation Feature Importance](https://scikit-learn.org/stable/modules/permutation_importance.html)

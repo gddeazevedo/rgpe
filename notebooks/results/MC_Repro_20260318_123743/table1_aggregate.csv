@@ -1,0 +1,2 @@
+dataset,mean_t_epsilon,median_t_epsilon,min_t_epsilon,prob_t_eps_le_d4,mean_t_used_adapt,median_t_used_adapt,frac_certified,frac_futility,frac_budget,mean_gap_mc_adapt,median_gap_mc_adapt,mean_pL,mean_phat,frac_unreachable
+riemann_features,30.72222222222222,8.0,1,0.8277777777777777,129.23333333333332,90.0,0.5555555555555556,0.18888888888888888,0.25555555555555554,0.002725168819039716,0.0,0.07863138053910969,0.1813344821087814,0.16666666666666666

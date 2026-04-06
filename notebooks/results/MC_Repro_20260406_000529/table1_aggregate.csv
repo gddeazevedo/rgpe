@@ -1,0 +1,2 @@
+dataset,mean_t_epsilon,median_t_epsilon,min_t_epsilon,prob_t_eps_le_d4,mean_t_used_adapt,median_t_used_adapt,frac_certified,frac_futility,frac_budget,mean_gap_mc_adapt,median_gap_mc_adapt,mean_pL,mean_phat,frac_unreachable
+o_shank,279.1041666666667,1.0,1,0.9375,648.1,90.0,0.1875,0.7125,0.1,0.00648295060095172,0.002804334668839538,0.0058034021897582335,0.023485876920253022,0.30416666666666664

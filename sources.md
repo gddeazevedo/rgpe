@@ -16,6 +16,7 @@
 - [Creating Custom Feature Maps for Quantum Support Vector Machines (Pauli Feature Map)](https://github.com/qiskit-community/qiskit-community-tutorials/blob/master/machine_learning/custom_feature_map.ipynb)
 - [Pauli Feature Map docs](https://quantum.cloud.ibm.com/docs/en/api/qiskit/qiskit.circuit.library.pauli_feature_map)
 - [BasicEntanglerLayers](https://docs.pennylane.ai/en/stable/code/api/pennylane.BasicEntanglerLayers.html)
+- [Quantum Feature Map](https://apxml.com/courses/fundamentals-quantum-machine-learning/chapter-2-advanced-quantum-data-encoding/quantum-feature-map-foundations)
 
 ## Etc
 

@@ -1,3 +1,6 @@
+import multiprocessing
+multiprocessing.set_start_method("fork")
+
 import sys
 from rgpe import cli
 

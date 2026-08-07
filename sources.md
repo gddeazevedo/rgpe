@@ -33,3 +33,4 @@
 - [Recursive Feature Elimination](https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFE.html)
 - [Mutual Info Regression](https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.mutual_info_regression.html)
 - [Permutation Feature Importance](https://scikit-learn.org/stable/modules/permutation_importance.html)
+- [Berry Conjecture](https://mathworld.wolfram.com/BerryConjecture.html)

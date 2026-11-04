@@ -1,6 +1,7 @@
 **
 !Dockerfile
-!requirements.txt
+!pyproject.toml
+!uv.lock
 !main.py
 !rgpe/
 !rgpe/**

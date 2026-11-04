@@ -1,0 +1,8 @@
+services:
+  rgpe:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "127.0.0.1:8888:8888"
+    command: ["jupyter", "notebook", "--ip=0.0.0.0", "--no-browser", "--allow-root", "--IdentityProvider.token="]

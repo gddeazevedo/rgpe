@@ -1,0 +1,253 @@
+================================================================================
+CONTEXTO DO PROJETO — ARTIGO DE REVISTA (EXPANSÃO DO CONGRESSO CBCTQ 2026)
+================================================================================
+
+TÍTULO ORIGINAL (CONGRESSO):
+"Quantum Kernels with Reduced-Dimensional Inputs for Gram-Point Offsets of Riemann Zeta Zeros"
+Autores: Gabriel D. Azevedo, Tharso D. Fernandes, Demerson N. Gonçalves
+Aceito no CBCTQ 2026 (Congresso Brasileiro de Ciências e Tecnologias Quânticas)
+
+================================================================================
+1. PROBLEMA
+================================================================================
+
+Predição do offset entre Gram points e zeros não-triviais da função zeta de Riemann:
+  δ_n = γ_n − g_{n−1}
+
+Onde γ_n é a parte imaginária do n-ésimo zero e g_{n−1} é o Gram point anterior.
+
+Dataset: 2000 amostras da tabulação de Odlyzko, split temporal 80/20.
+Feature selection: rank-aggregation (MI + Permutation Importance + RFE) de 94 variáveis para no máximo 10.
+
+================================================================================
+2. MODELOS DO ARTIGO ORIGINAL (CONGRESSO)
+================================================================================
+
+Todos usam SVR (Support Vector Regression). Os kernels testados:
+
+a) Gaussian RBF (clássico) — baseline
+   RMSE = 0.0575, R² = 0.959 (melhor absoluto)
+
+b) Spectral Harmonic Encoding (SH)
+   RX(xi), RZ(xi), CNOT chain, RZ(sin(xi)+cos(2xi))
+   RMSE = 0.0619, R² = 0.953
+
+c) Biaxial Entangled Encoding (BE)
+   RY(xi), CNOT cíclico, RX(xi)
+   RMSE = 0.0657, R² = 0.947
+
+d) Zeta-Phase Pauli Encoding (proposto)
+   paulis=["Y","YY"], entanglement="full", reps=2
+   Data map customizado Φ (eq. abaixo)
+   RMSE = 0.0762, R² = 0.929
+
+e) Standard Pauli Encoding (controle)
+   Mesma arquitetura que Zeta-Phase, mas data map default
+   RMSE = 0.1870, R² = 0.570
+
+TESE CENTRAL: O data map é o fator decisivo. Zeta-Phase vs Standard Pauli
+isola o efeito do data map (mesma arquitetura), e o Zeta-Phase supera por 2.5×.
+
+================================================================================
+3. EQUAÇÃO DO DATA MAP CUSTOMIZADO (Φ)
+================================================================================
+
+Φ(u⃗) = cos(Σ_i u_i ln u_i) + α Σ_{i=1}^{m-1} [cos(u_i − u_{i+1}) + sin(u_i · u_{i+1})]
+
+Onde:
+- u⃗ ∈ ℝ^m
+- α = 0.3
+- u_i ln u_i := 0 quando u_i = 0
+- Primeiro termo: motivado pela fase de Riemann-Siegel
+- Segundo termo: acoplamentos não-lineares entre coordenadas
+
+Pré-processamento: normalizar para [0,π], depois Gaussiano x̃_i = exp(−x_i²/2)
+
+Funcionamento:
+- Para |S|=1 (single-qubit): Φ(x_i) = cos(x_i ln x_i) → ângulo de R_Y
+- Para |S|=2 (two-qubit): Φ(x_i, x_j) = cos(...) + α[cos+sin] → ângulo de R_YY
+- Φ é uma função CLÁSSICA que recebe escalares e devolve um escalar (ângulo)
+- O circuito quântico usa esse ângulo nos gates
+
+A equação original com somatório de i=1 até m-1 já cobre todos os casos
+naturalmente pelo valor de m. NÃO precisa de decomposição em conjunto de índices.
+
+================================================================================
+4. CIRCUITO QUÂNTICO
+================================================================================
+
+PauliFeatureMap com paulis=["Y","YY"], entanglement="full", reps=2
+
+Unitária: U_Φ(x⃗) = Π_{S∈I} exp(i φ_S(x⃗) ⊗_{i∈S} P_i)
+
+Para 2 qubits (alto nível):
+q0: ─ H ─ R_Y(2φ₀) ─╥═══════════╥─
+                      ║ R_YY(2φ₀₁)║
+q1: ─ H ─ R_Y(2φ₁) ─╨═══════════╨─
+
+Decomposição do R_YY (como o Qiskit gera):
+R_YY(θ) = √X† · CNOT · P(θ) · CNOT · √X
+
+Onde:
+- √X = R_X(π/2) = mudança de base Y→Z
+- P(λ) = diag(1, e^{iλ}) = phase gate (base Z)
+- √X† = R_X(−π/2) = volta Z→Y
+
+Circuito otimizado (√X† · √X = I cancelam):
+q0: ─ H ─ √X ─ P(2φ₀) ─ ●───────────● ─ √X† ─
+q1: ─ H ─ √X ─ P(2φ₁) ─ ⊕ ─ P(2φ₀₁) ─ ⊕ ─ √X† ─
+
+Cada pauli tem sua mudança de base:
+- Z: nenhuma (P já está na base Z)
+- Y: √X / √X† (porque √X† · Z · √X = Y)
+- X: H / H (porque H · Z · H = X)
+
+O fator 2 nos ângulos vem de: exp(iφP) = R_P(2φ), compensando o 1/2 da definição.
+
+Seleção da arquitetura: framework training-free da ref [8] (Gonçalves et al.)
+avaliou combinações de paulis e determinou {Y,YY} como configuração ótima.
+
+================================================================================
+5. PLANO PARA EXPANSÃO (ARTIGO DE REVISTA)
+================================================================================
+
+5.1 APROFUNDAMENTO DA ANÁLISE (sobre os modelos existentes):
+
+a) Kernel Concentration
+   - Calcula μ_off e σ_off dos valores fora da diagonal da matriz de Gram
+   - σ_off ≈ 0 → kernel concentrado → modelo perde capacidade discriminativa
+   - Análogo ao barren plateau de QNNs
+   - Hipótese: Standard Pauli concentrado, Zeta-Phase não
+   - Ref: Thanasilp et al., "Exponential concentration in quantum kernel methods",
+     Nature Communications, vol. 15, art. 5200, 2024. DOI: 10.1038/s41467-024-49287-w
+
+b) Geometric Difference
+   - g(K_RBF || K_Q) = √(||√K_Q · K_RBF⁻¹ · √K_Q||_∞)
+   - Mede se kernel quântico vê geometria diferente do clássico
+   - g ≈ 1 → mesma geometria → sem potencial de vantagem
+   - g >> 1 → geometria diferente → potencial de vantagem
+   - Calcular para cada kernel quântico vs RBF (5 valores de g)
+   - NÃO usar para comparar quânticos entre si (fora do escopo original)
+   - Ref: Huang et al., "Power of data in quantum machine learning",
+     Nature Communications, vol. 12, art. 2631, 2021. DOI: 10.1038/s41467-021-22539-9
+
+5.2 NOVOS MODELOS:
+
+a) Hamiltonian Feature Map com FQK (Fidelity Quantum Kernel)
+   - Encoding: evolução hamiltoniana U_H(x⃗) = exp(−iHt)
+   - Avaliação: fidelidade (mesmo método dos outros kernels)
+   - Motivação: conjectura de Berry-Keating (zeros de zeta ↔ autovalores de hamiltoniano)
+   - Ref: Simões do Carmo et al., "Generalized two-qubit Hamiltonian for Projective
+     Quantum Feature Maps", arXiv:2606.13641, June 2026.
+
+b) Hamiltonian PQFM (Projected Quantum Feature Map)
+   - Mesmo encoding hamiltoniano
+   - Avaliação: medir observáveis locais, extrair features clássicas
+   - Permite comparar FQK vs PQFM com mesmo encoding (isola efeito do método)
+
+5.3 COMPARAÇÕES CONTROLADAS:
+
+Efeito do data map (mesma arquitetura, mesmo método):
+  Zeta-Phase FQK vs Standard Pauli FQK → já existe no congresso
+
+Efeito do método de avaliação (mesmo encoding, método diferente):
+  Hamiltonian FQK vs Hamiltonian PQFM → novo
+
+Efeito do encoding (todos os FQK entre si):
+  Todos os 5+1 kernels quânticos FQK entre si → expandido
+
+5.4 TABELA FINAL UNIFICADA:
+
+| Modelo               | Encoding       | Avaliação | RMSE | R²  | g   | σ_off |
+|----------------------|----------------|-----------|------|-----|-----|-------|
+| Gaussian RBF         | clássico       | clássico  | ...  | ... | —   | —     |
+| Zeta-Phase Pauli     | Φ customizado  | FQK       | ...  | ... | ?   | ?     |
+| Standard Pauli       | default        | FQK       | ...  | ... | ?   | ?     |
+| Biaxial Entangled    | biaxial        | FQK       | ...  | ... | ?   | ?     |
+| Spectral Harmonic    | multi-freq     | FQK       | ...  | ... | ?   | ?     |
+| Hamiltonian          | hamiltoniano   | FQK       | ...  | ... | ?   | ?     |
+| Hamiltonian PQFM     | hamiltoniano   | PQFM      | ...  | ... | ?   | ?     |
+
+================================================================================
+6. DECISÕES TOMADAS
+================================================================================
+
+- NÃO adicionar IQP/ZZFeatureMap (é caso especial do PauliFeatureMap, já testado
+  e descartado pelo framework training-free)
+- NÃO adicionar QRNN neste artigo (paradigma diferente, quebra coesão → segundo artigo)
+- NÃO usar geometric difference entre kernels quânticos (fora do escopo original)
+- Kernel concentration para diagnosticar falhas individuais dos kernels quânticos
+- Geometric difference apenas quântico vs RBF clássico
+- Hamiltonian com FQK E PQFM para isolar efeitos
+
+================================================================================
+7. REFERÊNCIAS CHAVE PARA ADICIONAR
+================================================================================
+
+Kernel concentration:
+  Thanasilp, Wang, Cerezo, Holmes. "Exponential concentration in quantum kernel
+  methods." Nature Communications 15, 5200 (2024). arXiv:2208.11060
+
+Geometric difference:
+  Huang, Broughton, Mohseni, Babbush, Boixo, Neven, McClean. "Power of data in
+  quantum machine learning." Nature Communications 12, 2631 (2021).
+
+Hamiltonian PQFM:
+  Simões do Carmo, Amaro Junior, Fanchini. "Generalized two-qubit Hamiltonian for
+  Projective Quantum Feature Maps." arXiv:2606.13641 (2026).
+
+Hyperparameter study (geometric difference empírica):
+  Haug, Self, Kim. "A hyperparameter study for quantum kernel methods."
+  Quantum Machine Intelligence 6 (2024). arXiv:2310.11891
+
+================================================================================
+8. LATEX DA EQUAÇÃO PRINCIPAL
+================================================================================
+
+\begin{equation}
+\begin{aligned}
+\Phi(\vec{u})
+&=
+\cos\!\Bigl(\sum_i u_i\ln u_i\Bigr) \\
+&\quad
++\alpha\sum_{i=1}^{m-1}
+\left[
+\cos(u_i-u_{i+1})
++\sin(u_i u_{i+1})
+\right],
+\end{aligned}
+\label{eq:riemann_map}
+\end{equation}
+
+================================================================================
+9. LATEX DO CIRCUITO (VERSÃO OTIMIZADA DECOMPOSTA)
+================================================================================
+
+\begin{figure}[htb]
+\centering
+\begin{quantikz}[column sep=3pt]
+\lstick{$q_0$}
+  & \gate{H}
+  & \gate{\sqrt{X}}
+  & \gate{P(2\phi_0)}
+  & \ctrl{1}
+  & \qw
+  & \ctrl{1}
+  & \gate{\sqrt{X}^\dagger}
+  & \qw \\
+\lstick{$q_1$}
+  & \gate{H}
+  & \gate{\sqrt{X}}
+  & \gate{P(2\phi_1)}
+  & \targ{}
+  & \gate{P(2\phi_{01})}
+  & \targ{}
+  & \gate{\sqrt{X}^\dagger}
+  & \qw
+\end{quantikz}
+\caption{One layer of the Zeta-Phase Pauli circuit for $n=2$ qubits.
+The full model repeats this block with depth $r=2$.}
+\label{fig:zeta_pauli}
+\end{figure}
+
+================================================================================
